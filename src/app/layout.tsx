@@ -1,7 +1,9 @@
 import classNames from "classnames"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { cookies } from "next/headers"
 import { PropsWithChildren } from "react"
+import AuthProvider from "./common/providers/Auth.provider"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -12,9 +14,15 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {
+  const cookieStorage = cookies()
+  const token = cookieStorage.get("token")?.value
   return (
     <html lang="en">
-      <body className={classNames(inter.className)}>{children}</body>
+      <body className={classNames(inter.className)}>
+        <AuthProvider token={token}>
+          <main>{children}</main>
+        </AuthProvider>
+      </body>
     </html>
   )
 }
