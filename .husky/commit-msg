@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+if ! head -1 "$1" | grep -qE "^(feat|fix|chore|docs|test|style|refactor|perf|build|ci|revert|merge)(\(.+?\))?: .{1,100}$"; then
+    echo "Aborting commit. Your commit message is invalid." >&2
+    exit 1
+fi
